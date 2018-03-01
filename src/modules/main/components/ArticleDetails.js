@@ -5,13 +5,13 @@ import {View, StyleSheet} from "react-native";
 
 //type ArticleDetailsNavigation = NavigationScreenProp<NavigationLeafRoute<{ article: IArticle }>, NavigationAction>;
 
-interface IProps {
-    navigation;
-}
+//interface IProps {
+//    navigation;
+//}
 
-export class ArticleDetails extends React.Component<IProps, {}> {
-    static navigationOptions: any = (params: { navigation }) => {
-        return ArticleDetailsProps.getNavigationProps(params.navigation.state.params && params.navigation.state.params.article.title);
+export class ArticleDetails extends React.Component {
+    static navigationOptions = (navigation) => {
+        return ArticleDetailsProps.getNavigationProps(navigation && navigation.state.params && navigation.state.params.article.title);
     };
 
     render() {

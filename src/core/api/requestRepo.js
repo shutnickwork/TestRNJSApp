@@ -7,7 +7,7 @@ export class GetDataRequest {
         };
         const url = `http://api.blog.testing.singree.com/?page=${page}&limit=${pageSize}`;
 
-        return fetch(url,  {headers: headers})
+        return fetch(url, {headers: headers})
             .then((response) => {
                 const status = response.status;
                 if (status === 401) {

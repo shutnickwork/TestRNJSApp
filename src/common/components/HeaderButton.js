@@ -2,8 +2,9 @@ import React, {PureComponent} from "react";
 import {Image, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Colors} from "../Colors";
 import {FontNames} from "../FontNames";
+import {ImageResources} from "../ImageResources";
 
-export class HeaderButton extends PureComponent<IProps, {}> {
+export class HeaderButton extends PureComponent {
     onPress = (): void => {
         const {action} = this.props;
         if (action) {
@@ -18,7 +19,7 @@ export class HeaderButton extends PureComponent<IProps, {}> {
         if (image) {
             return (
                 <TouchableOpacity style={style} onPress={this.onPress}>
-                    <Image source={require("../../../resources/images/icon_back.png")} style={iconStyle}/>
+                    <Image source={ImageResources.icon_back} style={iconStyle}/>
                 </TouchableOpacity>
             );
         } else if (text) {
@@ -32,17 +33,6 @@ export class HeaderButton extends PureComponent<IProps, {}> {
         }
     }
 }
-
-interface IProps {
-    isSearchBar?: boolean;
-    isTransparent?: boolean;
-    isRight?: boolean;
-    image?: string;
-    text?: string;
-    action?: () => void;
-    iconTintColor?: string;
-}
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

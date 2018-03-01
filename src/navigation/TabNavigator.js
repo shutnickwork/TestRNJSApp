@@ -1,7 +1,12 @@
-import HomeScreen from "../modules/main/HomeScreen";
 import SecondScreen from "../modules/second/SecondScreen";
-import {TabNavigator, StackNavigator} from "react-navigation";
+import {StackNavigator, TabNavigator} from "react-navigation";
 import {Colors} from "../common/Colors"
+import {ImageResources} from "../common/ImageResources";
+import {TabBarIcon} from "../common/components/TabIcon";
+import HomeScreen from "../modules/main/HomeScreen";
+import {testAppPages} from "./TestAppPages";
+import {ArticleDetails} from "../modules/main/components/ArticleDetails";
+import React from "react";
 
 const tabBarHeight = 49;
 const config = {
@@ -47,13 +52,40 @@ const config = {
     lazy: false,
 };
 
-
 const MainStackNavigator = StackNavigator({
-    ["Home"]: {screen: HomeScreen},
+    [testAppPages.articleList]: {screen: HomeScreen},
+    [testAppPages.articleDetails]: {screen: ArticleDetails}
 });
 
+const SecondStackNavigator = StackNavigator({
+    [testAppPages.second]: {screen: SecondScreen},
+});
+
+
 export const TestPro = TabNavigator({
-    Home: { screen: MainStackNavigator },
-    SecondScreen: { screen: SecondScreen }
+    Home: {
+        screen: MainStackNavigator,
+        navigationOptions: ({ navigation }) => ({
+            tabBarIcon: ({focused}) => {
+                const icon = ImageResources.tab_home_non_active;
+                const iconActive = ImageResources.tab_home_active;
+
+                return <TabBarIcon isFocused={focused} imageSource={icon} imageActiveSource={iconActive}/>;
+            },
+            tabBarLabel: "Главный"
+        }),
+    },
+    Second: {
+        screen: SecondStackNavigator,
+        navigationOptions:({navigation}) => ({
+            tabBarIcon: ({focused}) => {
+                const icon = ImageResources.tab_profile_non_active;
+                const iconActive = ImageResources.tab_profile_active;
+
+                return <TabBarIcon isFocused={focused} imageSource={icon} imageActiveSource={iconActive} />
+            },
+            tabBarLabel: "Второй"
+        })
+    }
 
 }, config );
