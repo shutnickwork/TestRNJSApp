@@ -5,7 +5,7 @@ import {FontNames} from "../FontNames";
 import {ImageResources} from "../ImageResources";
 
 export class HeaderButton extends PureComponent {
-    onPress = (): void => {
+    onPress = () => {
         const {action} = this.props;
         if (action) {
            action();

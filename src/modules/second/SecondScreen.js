@@ -1,5 +1,5 @@
 import React from 'react';
-import {DatePickerAndroid, DatePickerAndroidOpenReturn, Dimensions, ImageBackground, Platform,
+import {DatePickerAndroid, Dimensions, ImageBackground, Platform,
     StyleSheet,
     Text,
     View
@@ -15,7 +15,7 @@ type State = {
 
 export default class SecondScreen extends React.Component <State, Props> {
     static navigationOptions = {
-        title: 'Home',
+        title: 'SecondScreen',
         headerStyle: {
             backgroundColor: '#f4511e',
         },

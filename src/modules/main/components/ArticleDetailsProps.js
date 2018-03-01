@@ -6,11 +6,12 @@ import {Colors} from "../../../common/Colors";
 
 export class ArticleDetailsProps {
 
-    static getNavigationProps(headerTitle: string) {
+    static getNavigationProps(nav) {
+        const headerTitle = nav && nav.state && nav.state.params && nav.state.params.article.title || "nothing";
         return {
             headerTitle: <HeaderTitle headerTitle={headerTitle}/>,
             headerStyle: {backgroundColor: Colors.headerBackgroundColor},
-            headerLeft: <HeaderButton image={"image"} action={() => {console.log("fdsfds")}}/>,
+            headerLeft: <HeaderButton image={"image"} action={nav.goBack}/>,
             headerRight: <View/>,
         };
     }

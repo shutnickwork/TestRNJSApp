@@ -5,33 +5,27 @@ import {LoadingView} from "../../common/components/LoadingView";
 import {ArticleListItem} from "./components/ArticleListItem";
 import {Colors} from "../../common/Colors"
 import {FontNames} from "../../common/FontNames"
+import {GetDataRequest} from "../../core/api/requestRepo";
+import {testAppPages} from "../../navigation/TestAppPages";
 
 
-export interface IArticlesProps {
-    articleList;
-    currentArticle;
-}
-
-export interface IArticleState {
-    //setArticle: (article: IArticle) => void;
-    //navigateToListItemPage: (listItem: IArticle) => void;
-    //loadArticles: (loadState: LoadState) => void;
-
-}
-
-export class ArticleList extends React.Component<IArticlesProps, IArticleState> {
-    static navigationOptions = (): any => {
+export class ArticleList extends React.Component {
+    static navigationOptions = () => {
         return ArticleListProps.getNavigationProps("Статьи");
     };
-    onItemSelected = (item): void => {
-        //this.dispatchProps.setArticle(item);
-        //this.dispatchProps.navigateToListItemPage(item);
+    onItemSelected = (item) => {
+        this.props.navigation.navigate(testAppPages.articleDetails,
+            {
+                article: item
+            });
     };
-    keyExtractor = (item) => item.toString();
-    loadArticles = (): void => {
-        //this.dispatchProps.loadArticles(this.stateProps.loadState);
+    keyExtractor = (item) => item._id.toString();
+    loadArticles = async () => {
+        const data = await GetDataRequest.getArticles(1, 10);
+        const articles = data && data.articles;
+        this.setState({articleList : articles});
     };
-    pullToRefresh = (): void => {
+    pullToRefresh = () => {
         //this.dispatchProps.loadArticles(LoadState.pullToRefresh);
     };
     loadMore = (): void => {
@@ -39,7 +33,7 @@ export class ArticleList extends React.Component<IArticlesProps, IArticleState> 
             //this.dispatchProps.loadArticles(LoadState.loadingMore);
         }
     };
-    renderItem = ({item}: { item, index: number }) => {
+    renderItem = ({item}) => {
         return (
             <ArticleListItem
                 label={item.label}
@@ -82,24 +76,18 @@ export class ArticleList extends React.Component<IArticlesProps, IArticleState> 
         );
     };
 
-    constructor(props: IArticlesProps) {
+    constructor(props) {
         super(props);
 
         this.state = {
-            article: null
+            articleList: [],
+            currentArticle: null
         };
     }
 
-    componentDidMount(): void {
-        //this.loadArticles();
+    componentDidMount() {
+        this.loadArticles();
     }
-
-    /*
-    <FlatList
-  data={[{key: 'a'}, {key: 'b'}]}
-  renderItem={({item}) => <Text>{item.key}</Text>}
-/>
-    * */
 
     render() {
         const { articleList} = this.state;
@@ -114,6 +102,7 @@ export class ArticleList extends React.Component<IArticlesProps, IArticleState> 
                         ListEmptyComponent={this.emptyComponentForError()}
                         renderItem={this.renderItem}
                         keyExtractor={this.keyExtractor}
+                        refreshing={false}
                         onEndReached={this.loadMore}
                         onRefresh={this.pullToRefresh}
                         onEndReachedThreshold={0.3}

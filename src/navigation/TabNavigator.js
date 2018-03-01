@@ -3,12 +3,12 @@ import {StackNavigator, TabNavigator} from "react-navigation";
 import {Colors} from "../common/Colors"
 import {ImageResources} from "../common/ImageResources";
 import {TabBarIcon} from "../common/components/TabIcon";
-import HomeScreen from "../modules/main/HomeScreen";
 import {testAppPages} from "./TestAppPages";
 import {ArticleDetails} from "../modules/main/components/ArticleDetails";
 import React from "react";
+import {ArticleList} from "../modules/main/ArticleList";
 
-const tabBarHeight = 49;
+const tabBarHeight = 45;
 const config = {
     backBehavior: "none",
     tabBarPosition: "bottom",
@@ -53,7 +53,7 @@ const config = {
 };
 
 const MainStackNavigator = StackNavigator({
-    [testAppPages.articleList]: {screen: HomeScreen},
+    [testAppPages.articleList]: {screen: ArticleList},
     [testAppPages.articleDetails]: {screen: ArticleDetails}
 });
 
@@ -65,7 +65,7 @@ const SecondStackNavigator = StackNavigator({
 export const TestPro = TabNavigator({
     Home: {
         screen: MainStackNavigator,
-        navigationOptions: ({ navigation }) => ({
+        navigationOptions: () => ({
             tabBarIcon: ({focused}) => {
                 const icon = ImageResources.tab_home_non_active;
                 const iconActive = ImageResources.tab_home_active;
@@ -77,7 +77,7 @@ export const TestPro = TabNavigator({
     },
     Second: {
         screen: SecondStackNavigator,
-        navigationOptions:({navigation}) => ({
+        navigationOptions:() => ({
             tabBarIcon: ({focused}) => {
                 const icon = ImageResources.tab_profile_non_active;
                 const iconActive = ImageResources.tab_profile_active;
