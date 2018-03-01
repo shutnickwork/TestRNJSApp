@@ -7,6 +7,7 @@ import {Colors} from "../../common/Colors"
 import {FontNames} from "../../common/FontNames"
 import {GetDataRequest} from "../../core/api/requestRepo";
 import {testAppPages} from "../../navigation/TestAppPages";
+import {calculatePage, DEFAULT_PAGE_SIZE} from "../../common/calculatePage";
 
 
 export class ArticleList extends React.Component {
@@ -14,23 +15,42 @@ export class ArticleList extends React.Component {
         return ArticleListProps.getNavigationProps("Статьи");
     };
     onItemSelected = (item) => {
+        this.setArticle(item);
+        this.navigateToArticleDetails(item);
+    };
+
+    setArticle = (item) => {
+        this.setState({currentArticle: item});
+    };
+
+    navigateToArticleDetails = (item) => {
         this.props.navigation.navigate(testAppPages.articleDetails,
             {
                 article: item
             });
     };
     keyExtractor = (item) => item._id.toString();
-    loadArticles = async () => {
-        const data = await GetDataRequest.getArticles(1, 10);
+    loadArticles = async (page, pageSize) => {
+        const data = await GetDataRequest.getArticles(page, pageSize);
         const articles = data && data.articles;
-        this.setState({articleList : articles});
+        this.setState({articleList: articles});
     };
     pullToRefresh = () => {
-        //this.dispatchProps.loadArticles(LoadState.pullToRefresh);
+        this.loadArticles(1, DEFAULT_PAGE_SIZE);
+    };
+
+    loadMoreArticles = async (page, pageSize) => {
+        const data = await GetDataRequest.getArticles(page, pageSize);
+        const articles = data && data.articles;
+        if (articles && articles.length > 0) {
+            this.setState({articleList: this.state.articleList.concat(articles)});
+        }
     };
     loadMore = (): void => {
-        if (this.state.articleList.length > 0) {
-            //this.dispatchProps.loadArticles(LoadState.loadingMore);
+        if (this.state.articleList && this.state.articleList.length > 0) {
+            const currentCount = this.state.articleList.length || 0;
+            const page = calculatePage(currentCount, DEFAULT_PAGE_SIZE);
+            this.loadArticles(page, DEFAULT_PAGE_SIZE);
         }
     };
     renderItem = ({item}) => {
@@ -57,7 +77,7 @@ export class ArticleList extends React.Component {
     onPress = (): void => {
         const {currentArticle} = this.state;
         if (currentArticle) {
-            //this.dispatchProps.navigateToListItemPage(currentArticle);
+            this.navigateToArticleDetails(currentArticle);
         }
     };
 
@@ -86,12 +106,13 @@ export class ArticleList extends React.Component {
     }
 
     componentDidMount() {
+        console.log("componentDidMount");
         this.loadArticles();
     }
 
     render() {
-        const { articleList} = this.state;
-        if (articleList && articleList.length === 0 ) {
+        const {articleList} = this.state;
+        if (articleList && articleList.length === 0) {
             return <LoadingView isLoading={true}/>;
         } else {
             return (
