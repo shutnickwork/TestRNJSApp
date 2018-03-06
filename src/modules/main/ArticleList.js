@@ -8,6 +8,7 @@ import {FontNames} from "../../common/FontNames"
 import {GetDataRequest} from "../../core/api/requestRepo";
 import {testAppPages} from "../../navigation/TestAppPages";
 import {calculatePage, DEFAULT_PAGE_SIZE} from "../../common/calculatePage";
+import * as _ from "lodash";
 
 
 export class ArticleList extends React.Component {
@@ -35,22 +36,27 @@ export class ArticleList extends React.Component {
         const articles = data && data.articles;
         this.setState({articleList: articles});
     };
-    pullToRefresh = () => {
-        this.loadArticles(1, DEFAULT_PAGE_SIZE);
+    pullToRefresh = async () => {
+        const data = await GetDataRequest.getArticles( 1, DEFAULT_PAGE_SIZE);
+        const articles = data && data.articles;
+        const articleList = _.uniqBy(articles.concat(this.state.articleList), a => a._id);
+        this.setState({articleList: articleList});
     };
+
 
     loadMoreArticles = async (page, pageSize) => {
         const data = await GetDataRequest.getArticles(page, pageSize);
         const articles = data && data.articles;
+        const articleList = _.uniqBy(this.state.articleList.concat(articles), a => a._id);
         if (articles && articles.length > 0) {
-            this.setState({articleList: this.state.articleList.concat(articles)});
+            this.setState({articleList: articleList});
         }
     };
-    loadMore = (): void => {
+    loadMore = () => {
         if (this.state.articleList && this.state.articleList.length > 0) {
             const currentCount = this.state.articleList.length || 0;
             const page = calculatePage(currentCount, DEFAULT_PAGE_SIZE);
-            this.loadArticles(page, DEFAULT_PAGE_SIZE);
+            this.loadMoreArticles(page, DEFAULT_PAGE_SIZE);
         }
     };
     renderItem = ({item}) => {
@@ -74,7 +80,7 @@ export class ArticleList extends React.Component {
         );
     };
 
-    onPress = (): void => {
+    onPress = () => {
         const {currentArticle} = this.state;
         if (currentArticle) {
             this.navigateToArticleDetails(currentArticle);
@@ -106,7 +112,6 @@ export class ArticleList extends React.Component {
     }
 
     componentDidMount() {
-        console.log("componentDidMount");
         this.loadArticles();
     }
 
