@@ -139,8 +139,6 @@ export class ArticleList extends React.Component {
     }
 }
 
-//refreshing={loadState == LoadState.pullToRefresh}
-
 const styles = StyleSheet.create({
     title: {
         fontSize: 16,

@@ -6,7 +6,6 @@ import {
     View
 } from 'react-native';
 import {ArticleListProps} from "./components/ArticleListProps";
-import {GetDataRequest} from "../../core/api/requestRepo";
 import {TestClass} from "../../core/api/testClass";
 
 const instructions = Platform.select({

@@ -8,23 +8,11 @@ import {
     View, Dimensions
 } from "react-native";
 import {TextButton} from "./TextButton";
-//import {Colors, windowWidth} from "../../../core/theme/commonStyles";
-//import {TextButton} from "../../../common/components/TextButton";
 
-interface IProps {
-    closeModal: () => void;
-    confirmDate: (date: Date) => void;
-    isVisible: boolean;
-    initialDate: Date;
-}
 
-interface IState {
-    resultDate: Date;
-}
+export default class DateModal extends PureComponent {
 
-export default class DateModal extends PureComponent<IProps, IState> {
-
-    onDateChange = (date: Date): void => this.setState({resultDate: date});
+    onDateChange = (date) => this.setState({resultDate: date});
     confirmDate = () => {
         this.props.closeModal();
         InteractionManager.runAfterInteractions(() => this.props.confirmDate(this.state.resultDate));
@@ -33,7 +21,7 @@ export default class DateModal extends PureComponent<IProps, IState> {
         this.props.closeModal();
     };
 
-    constructor(props: IProps) {
+    constructor(props) {
         super(props);
         this.state = {resultDate: this.props.initialDate};
     }

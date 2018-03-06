@@ -1,13 +1,8 @@
 import React, {PureComponent} from "react";
 import {Text, TouchableOpacity} from "react-native";
 
-interface IProps {
-    text: string;
-    onPress: any;
-    isDark: boolean;
-}
 
-export class TextButton extends PureComponent<IProps, {}> {
+export class TextButton extends PureComponent {
 
     constructor() {
         super();

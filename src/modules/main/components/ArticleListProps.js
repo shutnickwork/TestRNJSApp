@@ -5,7 +5,7 @@ import {Colors} from "../../../common/Colors";
 
 export class ArticleListProps {
 
-    static getNavigationProps(headerTitle: string): any {
+    static getNavigationProps(headerTitle) {
         return {
             headerTitle: <HeaderTitle headerTitle={headerTitle} />,
             headerStyle: {backgroundColor: Colors.headerBackgroundColor},

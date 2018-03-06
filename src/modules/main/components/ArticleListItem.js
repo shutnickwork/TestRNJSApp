@@ -3,9 +3,9 @@ import {Image, Text, TouchableOpacity, View, StyleSheet} from "react-native";
 import {Colors} from "../../../common/Colors";
 import {FontNames} from "../../../common/FontNames";
 
-export class ArticleListItem extends PureComponent<IProps, {}> {
+export class ArticleListItem extends PureComponent {
 
-    onPress = (): void => {
+    onPress = () => {
         const onPressProp = this.props.onPress;
         if (onPressProp && this.props.item) {
             onPressProp(this.props.item);
@@ -33,16 +33,6 @@ export class ArticleListItem extends PureComponent<IProps, {}> {
         );
     }
 
-}
-
-interface IProps {
-    label?: string;
-    title: string;
-    authorName: string;
-    status: string;
-    created: string | Date;
-    item?: any;
-    onPress?: (item: any) => void;
 }
 
 const styles = StyleSheet.create({
