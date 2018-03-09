@@ -55,8 +55,40 @@ export default class HomeScreen extends React.Component {
         const a = 3;
         const b = 8;
         //let result = TestClass.filterRange(arr, a, b);
-        TestClass.primeNumbers(100);
-        //console.log("text", result);
+        //TestClass.primeNumbers(100);
+        let obj = {
+            className: 'open menu menu'
+        };
+        let newClass = "class";
+        //let text = TestClass.addClass(obj, newClass);
+        //let text = TestClass.camelize();
+        //let text = TestClass.removeClass(obj, "menu");
+        //TestClass.filterRangeInPlace(arr,a,b);
+        //TestClass.compareReversed(arr);
+        //TestClass.arrSorted();
+        //TestClass.randomSort();
+        //TestClass.sortObjects();
+        //TestClass.aclean(arr);
+        //let text = TestClass.clousureSum(a)(b);
+        /*
+        let buffer = TestClass.makeBuffer();
+        buffer('Замыкания');
+        buffer(' Использовать');
+        buffer(' Нужно!');
+        buffer.clear();
+        alert(  buffer() ); // Замыкания Использовать Нужно!
+        let text =  buffer();
+
+        let buffer2 =  TestClass.makeBuffer();
+        buffer2(0);
+        buffer2(1);
+        buffer2(0);
+        alert(buffer2());
+        */
+        //let text = TestClass.byFieldSort();
+        //TestClass.filterClousure();
+        TestClass.makeArmyClousure();
+        //console.log("text", text);
         //this.setState( {text: text});
     };
 
