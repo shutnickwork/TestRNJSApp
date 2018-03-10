@@ -34,20 +34,37 @@ export class TestClass {
         return !!(str.indexOf(pattern1) > 0 || str.indexOf(pattern2) > 0);
     }
 
+    static sum() {
+        return Array.from(arguments)
+            .reduce((sum, cur) => sum + cur, 0);
+    }
+
     static abr(name) {
-        if (name) {
-            const words = name.split(" ");
-            console.log(words);
-            let str = "";
-            if (Array.isArray(words)) {
-                for (let i = 0; i < words.length; i++) {
-                    str = words[i].charAt(0).toUpperCase();
-                    str += ".";
-                    console.log(str);
-                }
-            }
-            return str;
+        "use strict";
+
+        if (!name) {
+            return "";
         }
+
+        return name.toString()
+            .split(" ")
+            .map((i) => i.slice(0, 1))
+            .join('.')
+            .toUpperCase() + '.';
+    }
+
+    static abr(name) {
+        const words = name.split(" ");
+        let str = "";
+        for (let i = 0; i < words.length; i++) {
+            str += words[i].charAt(0).toUpperCase();
+            str += ".";
+        }
+        return str;
+    }
+
+    static func() {
+
     }
 
     //не достаточно. Дописать палиндром.
@@ -60,6 +77,7 @@ export class TestClass {
             return 'no';
         }
     }
+
     //It`s work version.
     static palindrome(str) {
         let removeChar = str.replace(/[^A-Z0-9]/ig, "").toLowerCase();
@@ -68,6 +86,7 @@ export class TestClass {
 
         return (removeChar === checkPalindrome);
     }
+
     //It`s work version.
     static dateParse(userDate) {
         "use strict";
@@ -77,6 +96,31 @@ export class TestClass {
         const month = monthStr.length > 1 ? monthStr : "0" + monthStr;
         const day = dayStr.length > 1 ? dayStr : "0" + dayStr;
         return `${date.getFullYear()}${month}${day}`;
+    }
+
+    static getLastDayOfMonth(date) {
+        "use strict";
+        let newDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        return newDate.getDate();
+    }
+
+    static DateParse(userDate) {
+        "use strict";
+        const date = new Date(userDate);
+        const monthStr = (date.getMonth() + 1).toString();
+        const dayStr = date.getDate().toString();
+        const month = monthStr.length > 1 ? monthStr : "0" + monthStr;
+        const day = dayStr.length > 1 ? dayStr : "0" + dayStr;
+        return `${date.getFullYear()}${month}${day}`;
+    }
+
+    static sumArgs() {
+        let sum = 0;
+        for (let i = 0; i < arguments.length; i++) {
+            sum += arguments[i];
+        }
+
+        return sum;
     }
 
     static isEmptyObj(obj) {
@@ -296,6 +340,84 @@ export class TestClass {
         //alert(people[0].age);
     }
 
+    static sumTo() {
+        (function sumToRec(n) {
+            let sum = 0;
+            if (n > 1) {
+                sum = n + sumToRec(n - 1);
+            }
+            return sum;
+            /*
+            if (n == 1) return 1;
+            return n + sumTo(n - 1);
+             */
+        })(1000);
+
+        return (function sumToArray(n) {
+            let sum = 0;
+            do {
+                sum += n;
+                n--;
+            } while (n > 1);
+            return sum;
+        })(1000);
+
+        //console.log("sum", sumToArray(6));
+
+        function sumToForm(n) {
+            return n * (n + 1) / 2;
+        }
+    }
+
+
+    static listNext() {
+
+        let list = {
+            value: 1,
+            next: {
+                value: 2,
+                next: {
+                    value: 3,
+                    next: {
+                        value: 4,
+                        next: null
+                    }
+                }
+            }
+        };
+
+
+        function printList(list) {
+            console.log(list.value);
+            if (list.next) {
+                printList(list.next);
+            }
+
+        }
+
+        function printReverseList(list) {
+            if (list.next) {
+                printList(list.next);
+            }
+
+            console.log(list.value);
+
+        }
+
+        function printListArray(list) {
+            let tmp = list;
+
+            while (tmp) {
+                console.log(tmp.value);
+                tmp = tmp.next;
+            }
+        }
+
+        printList(list);
+
+
+    }
+
     static aclean(arr) {
         arr = ["воз", "киборг", "корсет", "ЗОВ", "гробик", "костер", "сектор"];
         let symbols = arr[arr.length - 1].split('');
@@ -379,12 +501,12 @@ export class TestClass {
         function filter(arr, func) {
             let newArr = [];
 
-            for(let i = 0; i < arr.length; i++) {
+            for (let i = 0; i < arr.length; i++) {
                 if (func(arr[i])) {
                     newArr.push(arr[i]);
                 }
             }
-            return  newArr;
+            return newArr;
         }
 
         function inBetween(a, b) {
@@ -398,20 +520,20 @@ export class TestClass {
         }
 
         function inArray(arr) {
-            return function(x) {
+            return function (x) {
                 return arr.indexOf(x) !== -1;
             };
         }
 
         let arr = [1, 2, 3, 4, 5, 6, 7];
 
-        alert(filter(arr, function(a) {
+        alert(filter(arr, function (a) {
             return a % 2 === 0
         })); // 2,4,6
 
-        alert( filter(arr, inBetween(3, 6)) ); // 3,4,5,6
+        alert(filter(arr, inBetween(3, 6))); // 3,4,5,6
 
-        alert( filter(arr, inArray([1, 2, 10])) ); // 1,2
+        alert(filter(arr, inArray([1, 2, 10]))); // 1,2
     }
 
     static makeArmyClousure() {
@@ -420,10 +542,10 @@ export class TestClass {
             let shooters = [];
 
             for (let i = 0; i < 10; i++) {
-                let shooter = (function(x) {
+                let shooter = (function (x) {
 
-                    return function() {
-                        alert( x );
+                    return function () {
+                        alert(x);
                     };
 
                 })(i);
@@ -438,5 +560,135 @@ export class TestClass {
         army[0](); // стрелок выводит 10, а должен 0
         army[5](); // стрелок выводит 10...
         army[9]();
+    }
+
+    static makeCalculator() {
+        let calculator = {
+            read: function () {
+                this.prop1 = 2;
+                this.prop2 = 3;
+            },
+            sum: function () {
+                return this.prop1 + this.prop2;
+            },
+            mul: function () {
+                return this.prop1 * this.prop2;
+            }
+        };
+
+        calculator.read();
+
+        console.log(calculator.sum());
+        console.log(calculator.mul());
+    }
+
+    static ladder() {
+        let ladder = {
+            step: 0,
+            up: function () {
+                this.step++;
+                return this;
+            },
+            down: function () { // вниз по лестнице
+                this.step--;
+                return this;
+            },
+            showStep: function () { // вывести текущую ступеньку
+                alert(this.step);
+                return this;
+            }
+        };
+
+        ladder.up().up().down().up().down().showStep();
+    }
+
+
+    static clousureSum(a) {
+        return function (b) {
+            return a + b;
+        }
+    }
+
+
+    static sumValueOfAndString() {
+
+        function sum(a) {
+            let sum = a;
+
+            function podSum(b) {
+                sum += b;
+                return podSum;
+            }
+
+            podSum.toString = function () {
+                return sum;
+            };
+
+            return podSum;
+        }
+
+        console.log(sum(0)(1)(2)(3)(4)(5));
+    }
+
+    static calculatorConst() {
+
+        function Calculator() {
+
+            this.read = function () {
+                this.prop1 = 2;
+                this.prop2 = 3;
+            };
+            this.sum = function () {
+                return this.prop1 + this.prop2;
+            };
+            this.mul = function () {
+                return this.prop1 * this.prop2;
+            };
+        }
+
+
+        let calculator = new Calculator();
+        calculator.read();
+
+        alert("Сумма=" + calculator.sum());
+        alert("Произведение=" + calculator.mul());
+
+    }
+
+    static getSetUser() {
+        function User(fullName) {
+            this.fullName = fullName;
+
+            Object.defineProperties(this, {
+
+                firstName: {
+
+                    get: function() {
+                        return this.fullName.split(' ')[0];
+                    },
+
+                    set: function(newFirstName) {
+                        this.fullName = newFirstName + ' ' + this.lastName;
+                    }
+
+                },
+
+                lastName: {
+
+                    get: function() {
+                        return this.fullName.split(' ')[1];
+                    },
+
+                    set: function(newLastName) {
+                        this.fullName = this.firstName + ' ' + newLastName;
+                    }
+
+                }
+
+            });
+        }
+
+        const vasya = new User("Vasya Pup");
+        console.log(vasya);
     }
 }

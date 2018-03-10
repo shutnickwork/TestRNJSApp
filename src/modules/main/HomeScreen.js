@@ -87,7 +87,14 @@ export default class HomeScreen extends React.Component {
         */
         //let text = TestClass.byFieldSort();
         //TestClass.filterClousure();
-        TestClass.makeArmyClousure();
+        //TestClass.makeArmyClousure();
+        //let text = TestClass.sumArgs(11, 21, 31, 41 ,51);
+        //let text = TestClass.sumTo();
+        //let text = TestClass.makeCalculator();
+        //let text = TestClass.ladder();
+        //let text = TestClass.sumValueOfAndString();
+        //TestClass.calculatorConst();
+        TestClass.getSetUser();
         //console.log("text", text);
         //this.setState( {text: text});
     };
